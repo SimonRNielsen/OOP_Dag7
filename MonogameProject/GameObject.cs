@@ -18,9 +18,9 @@ namespace MonogameProject
         protected Vector2 position;
         protected float fps;
         protected float rotation;
-        private int health;
+        protected int health;
 
-        public int Health { get => health; set => health = value; }
+        public int Health { get => health; private set => health = value; }
 
         //public Texture2D Sprite { get => sprite; private set => sprite = value; }
 

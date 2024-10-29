@@ -26,7 +26,7 @@ namespace MonogameProject
             this.randomSpriteGroup = random.Next(1, 6);
             this.randomSpriteNumber = random.Next(1, 6);
             this.fps = 15f;
-            this.Health = 10;
+            this.health = 10;
         }
 
         public override void LoadContent(ContentManager content)
@@ -54,7 +54,7 @@ namespace MonogameProject
         {
             if (this.position.Y > (_graphics.PreferredBackBufferHeight + (this.sprite.Height / 2)))
             {
-                this.Health = 0;
+                this.health = 0;
             }
             Move(gameTime);
         }

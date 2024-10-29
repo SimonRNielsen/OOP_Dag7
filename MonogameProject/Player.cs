@@ -23,7 +23,7 @@ namespace MonogameProject
             this.position.X = (_graphics.PreferredBackBufferWidth / 2) - (64 / 2);
             this.position.Y = (_graphics.PreferredBackBufferHeight - 64);
             this.fps = 15f;
-            this.Health = 100;
+            this.health = 100;
         }
 
         /*
