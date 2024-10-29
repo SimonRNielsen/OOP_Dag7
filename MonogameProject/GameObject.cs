@@ -23,13 +23,8 @@ namespace MonogameProject
 
         public int Health { get => health; private set => health = value; }
 
-        //public Texture2D Sprite { get => sprite; private set => sprite = value; }
-
         public abstract void LoadContent(ContentManager content);
-        //{
-        //    Sprite = content.Load<Texture2D>("Sprites\\PlayerAnimation\\PlayerNormal\\Forward\\1fwd");
-        //}
-
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, position, null, Color.White, rotation, new Vector2(sprite.Width/2, sprite.Height/2), 1f, SpriteEffects.None, 0f);
