@@ -10,15 +10,15 @@ namespace MonogameProject
 {
     public class GameWorld : Game
     {
+        private Random random = new Random();
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> gameObjectsUpdater = new List<GameObject>();
         private Texture2D sprite;
         private Rectangle rectangle;
-        private DateTime timer;
-        private DateTime startTime;
-        private Texture2D startSprite;
+        private float spawnTimer = 5f;
+        private float timer;
 
         public GameWorld()
         {
@@ -30,8 +30,8 @@ namespace MonogameProject
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
             gameObjects.Add(new Player(_graphics));
-            startTime = DateTime.Now;
             base.Initialize();
         }
 
@@ -44,7 +44,6 @@ namespace MonogameProject
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.LoadContent(Content);
-                startSprite = Content.Load<Texture2D>("Sprites\\PlayerAnimation\\PlayerNormal\\Forward\\1fwd");
             }
 
         }
@@ -53,24 +52,37 @@ namespace MonogameProject
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            timer = DateTime.Now;
-            //List<GameObject> gameObjectsUpdater = gameObjects;
+
             // TODO: Add your update logic here
+
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.Update(gameTime);
             }
-            if (timer.Second >= (startTime.Second + 5))
+
+            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (timer >= spawnTimer)
             {
-                startTime = DateTime.Now;
-                gameObjectsUpdater.Add(new Player(_graphics, startSprite));
+                timer = 0f;
+
+                for (int i = 0; i < random.Next(1, 4); i++)
+                {
+                    gameObjectsUpdater.Add(new Enemy(_graphics, random));
+                }
+
                 foreach (GameObject gameObject in gameObjectsUpdater)
                 {
-                    gameObjects.Add(gameObject);
                     gameObject.LoadContent(Content);
+                    gameObjects.Add(gameObject);
                 }
+
                 gameObjectsUpdater.Clear();
+
             }
+
+            gameObjects.RemoveAll(c => c.Health == 0);
+
             base.Update(gameTime);
         }
 
@@ -79,6 +91,7 @@ namespace MonogameProject
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             foreach (GameObject gameObject in gameObjects)
             {

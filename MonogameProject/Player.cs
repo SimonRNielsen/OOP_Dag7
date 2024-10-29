@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,8 +23,10 @@ namespace MonogameProject
             this.position.X = (_graphics.PreferredBackBufferWidth / 2) - (64 / 2);
             this.position.Y = (_graphics.PreferredBackBufferHeight - 64);
             this.fps = 15f;
-            //this.sprite = sprites[0];
+            this.Health = 100;
         }
+
+        /*
         public Player(GraphicsDeviceManager graphics, Texture2D sprite)
         {
             this._graphics = graphics;
@@ -34,6 +35,7 @@ namespace MonogameProject
             this.fps = 15f;
             this.sprite = sprite;
         }
+        */
 
         public override void LoadContent(ContentManager content)
         {

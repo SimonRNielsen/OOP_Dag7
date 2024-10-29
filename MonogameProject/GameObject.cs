@@ -17,6 +17,10 @@ namespace MonogameProject
         protected Texture2D[] sprites;
         protected Vector2 position;
         protected float fps;
+        protected float rotation;
+        private int health;
+
+        public int Health { get => health; set => health = value; }
 
         //public Texture2D Sprite { get => sprite; private set => sprite = value; }
 
@@ -27,7 +31,7 @@ namespace MonogameProject
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, Color.White, 0f, new Vector2(sprite.Width/2, sprite.Height/2), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(sprite, position, null, Color.White, rotation, new Vector2(sprite.Width/2, sprite.Height/2), 1f, SpriteEffects.None, 0f);
         }
 
         public abstract void Update(GameTime gameTime);
