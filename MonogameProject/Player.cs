@@ -13,7 +13,6 @@ namespace MonogameProject
 {
     class Player : GameObject
     {
-        private float speed = 200f;
         private Vector2 velocity;
         private GraphicsDeviceManager _graphics;
                 
@@ -24,18 +23,8 @@ namespace MonogameProject
             this.position.Y = (_graphics.PreferredBackBufferHeight - 64);
             this.fps = 15f;
             this.health = 100;
+            this.speed = 200f;
         }
-
-        /*
-        public Player(GraphicsDeviceManager graphics, Texture2D sprite)
-        {
-            this._graphics = graphics;
-            this.position.X = (_graphics.PreferredBackBufferWidth / 2) - (64 / 2);
-            this.position.Y = (_graphics.PreferredBackBufferHeight - 64);
-            this.fps = 15f;
-            this.sprite = sprite;
-        }
-        */
 
         public override void LoadContent(ContentManager content)
         {

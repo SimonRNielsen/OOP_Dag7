@@ -13,6 +13,7 @@ namespace MonogameProject
     {
         private float timeElapsed;
         private int currentIndex;
+        protected float speed;
         protected Texture2D sprite;
         protected Texture2D[] sprites;
         protected Vector2 position;

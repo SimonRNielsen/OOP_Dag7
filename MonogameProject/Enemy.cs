@@ -12,10 +12,9 @@ namespace MonogameProject
     internal class Enemy : GameObject
     {
         private GraphicsDeviceManager _graphics;
-        private float speed;
-        private int currentIndex;
         private int randomSpriteGroup;
         private int randomSpriteNumber;
+        private float rotationSpeed;
 
         public Enemy(GraphicsDeviceManager graphics, Random random)
         {
@@ -27,6 +26,7 @@ namespace MonogameProject
             this.randomSpriteNumber = random.Next(1, 6);
             this.fps = 15f;
             this.health = 10;
+            this.rotationSpeed = ((float)random.Next(-700, 701) / 10000);
         }
 
         public override void LoadContent(ContentManager content)
@@ -65,7 +65,7 @@ namespace MonogameProject
             this.position.Y += (this.speed * deltaTime);
             if (this.randomSpriteGroup == 5)
             {
-                this.rotation += 0.07f;
+                this.rotation += rotationSpeed;
             }
         }
     }
