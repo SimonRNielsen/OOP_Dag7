@@ -11,23 +11,33 @@ namespace MonogameProject
 {
     internal abstract class GameObject
     {
-        private float timeElapsed;
         private int currentIndex;
+        protected int health;
+        private float timeElapsed;
         protected float speed;
+        protected float fps;
+        protected float rotation;
+        protected float scale = 1f;
+        protected float layer = 1f;
         protected Texture2D sprite;
         protected Texture2D[] sprites;
         protected Vector2 position;
-        protected float fps;
-        protected float rotation;
-        protected int health;
+        protected Vector2 velocity;
+        protected Rectangle collisionBox;
+
 
         public int Health { get => health; private set => health = value; }
+
+        public Rectangle CollisionBox
+        {
+            get { return new Rectangle((int)position.X-(sprite.Width/2), (int)position.Y-(sprite.Height/2), sprite.Width, sprite.Height); }
+        }
 
         public abstract void LoadContent(ContentManager content);
         
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, Color.White, rotation, new Vector2(sprite.Width/2, sprite.Height/2), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(sprite, position, null, Color.White, rotation, new Vector2(sprite.Width/2, sprite.Height/2), scale, SpriteEffects.None, layer);
         }
 
         public abstract void Update(GameTime gameTime);
@@ -46,6 +56,30 @@ namespace MonogameProject
                 currentIndex = 0;
             }
         }
-        
+
+        protected void Move(GameTime gameTime)
+        {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            position += ((velocity * speed) * deltaTime);
+        }
+
+        public bool IsColliding(GameObject other)
+        {
+            bool isColliding = false;
+
+            return isColliding;
+        }
+
+        public abstract void OnCollision(GameObject other);
+
+        public void CheckCollision(GameObject other)
+        {
+            if (CollisionBox.Intersects(other.CollisionBox))
+            {
+                OnCollision(other);
+            }
+        }
+
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,14 +12,12 @@ namespace MonogameProject
 {
     class Player : GameObject
     {
-        private Vector2 velocity;
         private GraphicsDeviceManager _graphics;
                 
         public Player(GraphicsDeviceManager graphics)
         {
             this._graphics = graphics;
-            this.position.X = (_graphics.PreferredBackBufferWidth / 2) - (64 / 2);
-            this.position.Y = (_graphics.PreferredBackBufferHeight - 64);
+            this.position.X = (_graphics.PreferredBackBufferWidth / 2);
             this.fps = 15f;
             this.health = 100;
             this.speed = 200f;
@@ -37,6 +34,13 @@ namespace MonogameProject
             }
 
             this.sprite = sprites[0];
+            this.position.Y = (_graphics.PreferredBackBufferHeight - (sprite.Height / 2));
+
+        }
+
+        public override void OnCollision(GameObject other)
+        {
+           // throw new NotImplementedException();
         }
 
         public override void Update(GameTime gameTime)
@@ -96,13 +100,6 @@ namespace MonogameProject
                 velocity.Normalize();
             }
         }
-
-        private void Move(GameTime gameTime)
-        {
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            position += ((velocity * speed) * deltaTime);
-        }
-
+        
     }
 }

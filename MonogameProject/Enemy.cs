@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,59 +16,73 @@ namespace MonogameProject
         private int randomSpriteGroup;
         private int randomSpriteNumber;
         private float rotationSpeed;
+        Random random = new Random();
 
-        public Enemy(GraphicsDeviceManager graphics, Random random)
+        public Enemy(GraphicsDeviceManager graphics)
         {
             _graphics = graphics;
-            this.speed = (float)random.Next(80, 160);
-            this.position.X = (float)random.Next(0, (_graphics.PreferredBackBufferWidth - 100));
-            this.position.Y -= 100; 
-            this.randomSpriteGroup = random.Next(1, 6);
-            this.randomSpriteNumber = random.Next(1, 6);
-            this.fps = 15f;
-            this.health = 10;
-            this.rotationSpeed = ((float)random.Next(-700, 701) / 10000);
+            this.health = 4;
+            this.velocity.Y = 1f;
         }
 
         public override void LoadContent(ContentManager content)
         {
             string path;
-
-            if (this.randomSpriteGroup == 5)
+            sprites = new Texture2D[3];
+            for (int i = 0; i < 3; i++)
             {
-                if (this.randomSpriteNumber == 5)
+                this.randomSpriteGroup = random.Next(1, 6);
+                this.randomSpriteNumber = random.Next(1, 6);
+                if (this.randomSpriteGroup == 5)
                 {
-                    this.randomSpriteNumber = 4;
+                    if (this.randomSpriteNumber == 5)
+                    {
+                        this.randomSpriteNumber = 4;
+                    }
+                    path = $"Sprites\\Meteors\\meteorGrey_big";
                 }
-                path = $"Sprites\\Meteors\\meteorGrey_big";
-            }
-            else
-            {
-                path = $"Sprites\\Enemies\\enemy{(SpriteGroup)this.randomSpriteGroup}";
+                else
+                {
+                    path = $"Sprites\\Enemies\\enemy{(SpriteGroup)this.randomSpriteGroup}";
+                }
+                this.sprites[i] = content.Load<Texture2D>($"{path}{this.randomSpriteNumber}");
             }
 
-            this.sprite = content.Load<Texture2D>($"{path}{this.randomSpriteNumber}");
+            Respawn();
 
+        }
+
+        public override void OnCollision(GameObject other)
+        {
+            Respawn();
+            this.health--;
         }
 
         public override void Update(GameTime gameTime)
         {
             if (this.position.Y > (_graphics.PreferredBackBufferHeight + (this.sprite.Height / 2)))
             {
-                this.health = 0;
+                Respawn();
             }
-            Move(gameTime);
-        }
-
-        public void Move(GameTime gameTime)
-        {
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            this.position.Y += (this.speed * deltaTime);
-            if (this.randomSpriteGroup == 5)
+            if (sprite.Name.Contains("Meteor"))
             {
                 this.rotation += rotationSpeed;
             }
+            this.Move(gameTime);
         }
+
+        private void Respawn()
+        {
+            this.randomSpriteGroup = random.Next(1, 6);
+            this.randomSpriteNumber = random.Next(1, 6);
+            this.sprite = sprites[random.Next(0, 3)];
+            this.rotationSpeed = ((float)random.Next(-700, 701) / 10000);
+            this.rotation = 0f;
+            this.speed = (float)random.Next(80, 160);
+            this.position.X = (float)random.Next(50, (_graphics.PreferredBackBufferWidth - 50));
+            this.position.Y = 0 - sprite.Height;
+        }
+
     }
 
     public enum SpriteGroup : int
