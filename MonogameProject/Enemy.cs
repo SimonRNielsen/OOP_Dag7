@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace MonogameProject
         private int randomSpriteGroup;
         private int randomSpriteNumber;
         private float rotationSpeed;
+        SoundEffect die;
         Random random = new Random();
 
         public Enemy(GraphicsDeviceManager graphics)
@@ -46,7 +48,10 @@ namespace MonogameProject
                     path = $"Sprites\\Enemies\\enemy{(SpriteGroup)this.randomSpriteGroup}";
                 }
                 this.sprites[i] = content.Load<Texture2D>($"{path}{this.randomSpriteNumber}");
+                
             }
+
+            die = content.Load<SoundEffect>("Sounds\\sfx_shieldDown");
 
             Respawn();
 
@@ -56,6 +61,8 @@ namespace MonogameProject
         {
             Respawn();
             this.health--;
+            die.Play();
+            GameWorld.killCount++;
         }
 
         public override void Update(GameTime gameTime)

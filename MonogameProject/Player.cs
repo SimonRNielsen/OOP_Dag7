@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,21 +14,34 @@ namespace MonogameProject
 {
     class Player : GameObject
     {
-        private GraphicsDeviceManager _graphics;
-                
+        public int SpriteHeight;
+        protected GraphicsDeviceManager _graphics;
+        public Texture2D laserSprite;
+        protected bool canShoot = true;
+        protected SoundEffect laserPewPew;
+        protected SoundEffect takeDamage;
+        protected SoundEffect playerDead;
+        protected float timer = 1;
+        protected float dmgTaken;
+        protected bool recievedDmg = false;
+
         public Player(GraphicsDeviceManager graphics)
         {
             this._graphics = graphics;
             this.position.X = (_graphics.PreferredBackBufferWidth / 2);
             this.fps = 15f;
-            this.health = 100;
+            this.health = 3;
             this.speed = 200f;
         }
 
         public override void LoadContent(ContentManager content)
         {
             sprites = new Texture2D[4];
+            laserSprite = content.Load<Texture2D>($"Sprites\\Lasers\\laserGreen08");
             string path = "Sprites\\PlayerAnimation\\PlayerNormal\\Forward\\";
+            laserPewPew = content.Load<SoundEffect>("Sounds\\sfx_laser2");
+            takeDamage = content.Load<SoundEffect>("Sounds\\sfx_shieldUp");
+            playerDead = content.Load<SoundEffect>("Sounds\\sfx_twoTone");
 
             for (int i = 0; i < sprites.Length; i++)
             {
@@ -34,13 +49,21 @@ namespace MonogameProject
             }
 
             this.sprite = sprites[0];
+            this.SpriteHeight = sprite.Height / 2;
             this.position.Y = (_graphics.PreferredBackBufferHeight - (sprite.Height / 2));
 
         }
 
         public override void OnCollision(GameObject other)
         {
-           // throw new NotImplementedException();
+            this.health--;
+            if (Health == 0)
+            {
+                GameWorld.playerHealth--;
+                playerDead.Play();
+            }
+            takeDamage.Play();
+            recievedDmg = true;
         }
 
         public override void Update(GameTime gameTime)
@@ -48,9 +71,24 @@ namespace MonogameProject
             HandleInput();
             Move(gameTime);
             Animate(gameTime);
+
+            this.dmgTaken += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (recievedDmg)
+            {
+                this.color = Color.Red;
+                this.dmgTaken = 0f;
+                this.recievedDmg = false;
+            }
+
+            if (dmgTaken > timer)
+            {
+                this.color = Color.White;
+            } 
+
         }
 
-        private void HandleInput()
+        protected virtual void HandleInput()
         {
             velocity = Vector2.Zero;
 
@@ -93,6 +131,17 @@ namespace MonogameProject
                 {
                     velocity += new Vector2(1, 0);
                 }
+            }
+            if (keyState.IsKeyDown(Keys.Space) && canShoot)
+            {
+                canShoot = false;
+                GameWorld.InstantiateGameObject(new Laser(this));
+                //GameWorld.InstantiateGameObject(new Laser(position, laserSprite));
+                laserPewPew.Play();
+            }
+            if (keyState.IsKeyUp(Keys.Space) && !canShoot)
+            {
+                canShoot = true;
             }
 
             if (velocity != Vector2.Zero)

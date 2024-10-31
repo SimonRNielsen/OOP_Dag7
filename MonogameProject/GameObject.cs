@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MonogameProject
 {
-    internal abstract class GameObject
+    public abstract class GameObject
     {
         private int currentIndex;
         protected int health;
@@ -24,6 +24,7 @@ namespace MonogameProject
         protected Vector2 position;
         protected Vector2 velocity;
         protected Rectangle collisionBox;
+        protected Color color = Color.White;
 
 
         public int Health { get => health; private set => health = value; }
@@ -33,11 +34,13 @@ namespace MonogameProject
             get { return new Rectangle((int)position.X-(sprite.Width/2), (int)position.Y-(sprite.Height/2), sprite.Width, sprite.Height); }
         }
 
+        public Vector2 Position { get => position; set => position = value; }
+
         public abstract void LoadContent(ContentManager content);
         
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, Color.White, rotation, new Vector2(sprite.Width/2, sprite.Height/2), scale, SpriteEffects.None, layer);
+            spriteBatch.Draw(sprite, position, null, color, rotation, new Vector2(sprite.Width/2, sprite.Height/2), scale, SpriteEffects.None, layer);
         }
 
         public abstract void Update(GameTime gameTime);
@@ -80,6 +83,7 @@ namespace MonogameProject
                 OnCollision(other);
             }
         }
+
 
     }
 }

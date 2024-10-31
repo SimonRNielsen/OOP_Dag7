@@ -61,6 +61,13 @@
 /processorParam:TextureFormat=Color
 /build:Backgrounds/purple.png
 
+#begin Game.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Game.spritefont
+
 #begin pixel.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -75,43 +82,43 @@
 
 #begin Sounds/sfx_laser1.ogg
 /importer:OggImporter
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/sfx_laser1.ogg
 
 #begin Sounds/sfx_laser2.ogg
 /importer:OggImporter
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/sfx_laser2.ogg
 
 #begin Sounds/sfx_lose.ogg
 /importer:OggImporter
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/sfx_lose.ogg
 
 #begin Sounds/sfx_shieldDown.ogg
 /importer:OggImporter
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/sfx_shieldDown.ogg
 
 #begin Sounds/sfx_shieldUp.ogg
 /importer:OggImporter
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/sfx_shieldUp.ogg
 
 #begin Sounds/sfx_twoTone.ogg
 /importer:OggImporter
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/sfx_twoTone.ogg
 
 #begin Sounds/sfx_zap.ogg
 /importer:OggImporter
-/processor:SongProcessor
+/processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/sfx_zap.ogg
 

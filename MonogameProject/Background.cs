@@ -19,21 +19,21 @@ namespace MonogameProject
             _graphics = graphics;
             this.velocity.Y = 1f;
             this.speed = 150f;
-            this.scale = 8f;
-            this.position.X = _graphics.PreferredBackBufferHeight-128;
-            this.position.Y = 0;
             this.health = 2;
+            this.position.Y = 0;
+            //int scaleint = _graphics.PreferredBackBufferWidth / 256;
+            this.scale = 8f;
             if (background == 1)
             {
-                this.position.Y = -((int)scale * 256) * background;
+                this.position.Y = -(scale * 256) * background;
             }
             if (background == 2)
             {
-                this.position.Y = -((int)scale * 256) * background;
+                this.position.Y = -(scale * 256) * background;
             }
             if (background == 3)
             {
-                this.position.Y = -((int)scale * 256) * background;
+                this.position.Y = -(scale * 256) * background;
             }
             this.backgroundIndex = background;
             this.layer = 0f;
@@ -47,6 +47,7 @@ namespace MonogameProject
             this.sprites[3] = content.Load<Texture2D>($"Backgrounds\\purple");
 
             this.sprite = this.sprites[backgroundIndex];
+            this.position.X = _graphics.PreferredBackBufferHeight-(sprite.Width/2);
             
         }
 
@@ -58,7 +59,7 @@ namespace MonogameProject
         public override void Update(GameTime gameTime)
         {
             this.Move(gameTime);
-            if (position.Y > _graphics.PreferredBackBufferHeight * 3)
+            if (position.Y > _graphics.PreferredBackBufferHeight * 2)
             {
                 this.position.Y = -((int)scale * 256) * 3;
             }
