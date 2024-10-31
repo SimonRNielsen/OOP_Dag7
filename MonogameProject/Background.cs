@@ -22,7 +22,7 @@ namespace MonogameProject
             this.health = 2;
             this.position.Y = 0;
             //int scaleint = _graphics.PreferredBackBufferWidth / 256;
-            this.scale = 8f;
+            this.scale = 8.5f;
             if (background == 1)
             {
                 this.position.Y = -(scale * 256) * background;
